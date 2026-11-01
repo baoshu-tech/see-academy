@@ -244,6 +244,25 @@ header nav a:nth-child(4):before{content:'▱';font-size:25px}
 
 /* Highlight the fixed mobile navigation with the academy orange. */
 @media(max-width:760px){header nav{border:0!important;border-top:1px solid #e99a6330!important;gap:0!important;box-sizing:border-box;background:linear-gradient(110deg,#482a20,#39261f 55%,#482b21)!important;box-shadow:0 -8px 30px #0003!important}header nav a{border:0!important;box-shadow:none!important}header nav a.active{background:#ff925a20!important;color:#ffab77!important}}
+
+/* Mobile introduction, focused abilities page and direct parent feedback tab. */
+@media(max-width:760px){
+header nav{grid-template-columns:repeat(7,minmax(0,1fr))!important;padding-inline:2px!important}
+header nav a{font-size:9px!important;letter-spacing:-.2px}header nav a:before{font-size:20px!important}
+header nav a[data-group="singapore"]:before{content:'SIM';font-size:14px!important}header nav a[data-group="malaysia"]:before{content:'MU';font-size:14px!important}
+header nav a[data-group="education"]:before{content:'▱'}header nav a[data-group="parents"]:before{content:'♡'}header nav a[data-group="campus"]:before{content:'▧'}header nav a[data-group="admissions"]:before{content:'☷'}
+.mobile-belief-opening{position:absolute;inset:80px 0 auto;height:230px;z-index:3;pointer-events:none}.mobile-belief-opening .belief-sequence>span{font-size:64px;letter-spacing:6px;animation:mobile-belief-bounce 1.35s ease both;animation-delay:calc(var(--word)*1.35s)}
+.home-opening>#hero-title,.home-opening>.dark-intro,.home-opening>.dark-actions,.home-opening>.dark-note,.home-opening>.dark-index{visibility:hidden}
+.core-abilities>.abilities-promise:first-child{margin:12px 0 35px!important;padding:25px 0!important;border:0!important;text-align:center}
+.core-abilities>.abilities-promise:first-child p{font-size:clamp(14px,3.8vw,18px)!important;line-height:2.1!important;font-style:italic;letter-spacing:-.2px}
+.promise-emphasis{display:inline-block;color:#ff8b48;animation-duration:.9s;animation-fill-mode:both;animation-timing-function:ease-out;transform-origin:50% 80%}
+.emphasis-learn{animation-name:promise-rise;animation-delay:.35s}.emphasis-express{animation-name:promise-pop;animation-delay:.8s}.emphasis-team{animation-name:promise-glow;animation-delay:1.25s}.emphasis-think{animation-name:promise-pop;animation-delay:1.7s}.emphasis-leader{animation-name:promise-glow;animation-delay:2.3s}
+}
+@keyframes mobile-belief-bounce{0%{opacity:0;transform:translateY(25px) scale(.9)}25%{opacity:1;transform:translateY(-10px) scale(1.04)}42%{transform:translateY(3px) scale(.99)}60%,76%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-15px)}}
+@keyframes promise-rise{0%{transform:translateY(8px);opacity:.4}60%{transform:translateY(-3px)}100%{transform:none;opacity:1}}
+@keyframes promise-pop{0%,100%{transform:scale(1)}45%{transform:scale(1.13);color:#ffd1a7}}
+@keyframes promise-glow{0%,100%{text-shadow:0 0 0 transparent}50%{color:#ffd1a7;text-shadow:0 0 16px #ff853b99;transform:translateY(-2px)}}
+@media(prefers-reduced-motion:reduce){.promise-emphasis{animation:none!important}.mobile-belief-opening{display:none}}
 </style><meta property="og:type" content="website">
 <meta property="og:title" content="看见学院｜让世界看见每一个你">
 <meta property="og:description" content="中新中马国际融合班，初中毕业，直达世界百强名校。">
@@ -296,10 +315,11 @@ function initPageMotion(reduced,listen){
  };
  const home=content.querySelector('.dark-hero');
  if(home){
-  home.querySelectorAll('.hero-word').forEach((el,i)=>add(el,'title-rise',i*210,true));
-  home.querySelectorAll('.dark-intro>span').forEach((el,i)=>add(el,'title-rise',1350+i*240,true));
-  home.querySelectorAll('.hero-note-line').forEach((el,i)=>add(el,'title-fade',1850+i*220,true));
-  content.querySelectorAll('.dark-programme').forEach(el=>add(el,'page-turn',1350,true));
+  const openingDelay=home.classList.contains('home-opening')?5400:0;
+  home.querySelectorAll('.hero-word').forEach((el,i)=>add(el,'title-rise',openingDelay+i*210,true));
+  home.querySelectorAll('.dark-intro>span').forEach((el,i)=>add(el,'title-rise',openingDelay+1350+i*240,true));
+  home.querySelectorAll('.hero-note-line').forEach((el,i)=>add(el,'title-fade',openingDelay+1850+i*220,true));
+  content.querySelectorAll('.dark-programme').forEach(el=>add(el,'page-turn',openingDelay+1350,true));
  }
  const programme=content.querySelector('.programme-focus');
  if(programme){
@@ -482,16 +502,24 @@ function route(){
  cleanupEnhancements();
  let key=decodeURIComponent(location.hash.slice(1))||'home/welcome';
  key=ALIASES[key]||key;
+ if(key==='parents/voices'&&!PAGES[key])PAGES[key]=PAGES['education/belief'].slice(PAGES['education/belief'].indexOf('<section class="parent-voices"'));
  if(!PAGES[key])key='home/welcome';
+ const mobile=matchMedia('(max-width:760px)').matches;
+ if(!PAGES['parents/voices'])PAGES['parents/voices']=PAGES['education/belief'].slice(PAGES['education/belief'].indexOf('<section class="parent-voices"'));
+ if(mobile&&key==='education/belief')key='education/abilities';
+ const groups={...GROUPS,parents:[['voices','家长好评']]};
+ if(mobile)groups.education=[['abilities','四项核心能力']];
+ const navItems=mobile?[['home','学院首页'],['singapore','中新班'],['malaysia','中马班'],['education','培养体系'],['parents','家长好评'],['campus','校园成长'],['admissions','招生指南']]:NAV;
+ document.querySelector('header nav').innerHTML=navItems.map(([g,label])=>`<a href="#${g}/${groups[g][0][0]}" data-group="${g}">${label}</a>`).join('');
  const [group,panel]=key.split('/');
- content.innerHTML=PAGES[key];hydrate();
+ content.innerHTML=PAGES[key];prepareMobileContent(mobile,key);hydrate();
  document.querySelectorAll('header [data-group]').forEach(a=>{const active=a.dataset.group===group;a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
- document.getElementById('subnav-wrap').hidden=group==='home';
- subnav.innerHTML=GROUPS[group].map(([id,name])=>`<a href="#${group}/${id}" class="${id===panel?'active':''}" ${id===panel?'aria-current="page"':''}>${name}</a>`).join('');
- const seq=GROUPS[group],index=seq.findIndex(([id])=>id===panel);
+ document.getElementById('subnav-wrap').hidden=group==='home'||(mobile&&['education','parents'].includes(group));
+ subnav.innerHTML=groups[group].map(([id,name])=>`<a href="#${group}/${id}" class="${id===panel?'active':''}" ${id===panel?'aria-current="page"':''}>${name}</a>`).join('');
+ const seq=groups[group],index=seq.findIndex(([id])=>id===panel);
  const prev=index?`${group}/${seq[index-1][0]}`:'home/welcome';
  const next=index<seq.length-1?`${group}/${seq[index+1][0]}`:group==='home'?'singapore/overview':group==='singapore'?'malaysia/overview':group==='malaysia'?'education/belief':group==='education'?'campus/care':group==='campus'?'admissions/compare':group==='admissions'?'home/welcome':'home/welcome';
- const titleOf=k=>GROUPS[k.split('/')[0]].find(a=>a[0]===k.split('/')[1])[1];
+ const titleOf=k=>groups[k.split('/')[0]].find(a=>a[0]===k.split('/')[1])[1];
  document.getElementById('page-turn').innerHTML=`<a href="#${prev}">← ${titleOf(prev)}</a><span>SEE ACADEMY / ${String(index+1).padStart(2,'0')}</span><a href="#${next}">${titleOf(next)} →</a>`;
  document.title='看见学院｜'+seq[index][1];
  document.body.dataset.group=group;
@@ -502,6 +530,7 @@ function route(){
  initEnhancements();
  initMobileInteractions();
  initBudgetPanels();
+ initMobileOpening(mobile);
 }
 
 content.addEventListener('click',e=>{
@@ -536,5 +565,26 @@ function initBudgetPanels(){
  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
  const turn=(el,delay=0)=>{if(reduce)return;const a=el.animate([{opacity:0,transform:'perspective(900px) rotateX(-70deg)',transformOrigin:'50% 0%'},{opacity:1,transform:'perspective(900px) rotateX(0deg)',transformOrigin:'50% 0%'}],{duration:650,delay,easing:'cubic-bezier(.2,.65,.3,1)',fill:'backwards'});sgCleanup.push(()=>a.cancel());};
  content.querySelectorAll('.budget-toggle').forEach((button,i)=>{turn(button,i*140);button.onclick=()=>{const panel=document.getElementById(button.getAttribute('aria-controls')),opening=button.getAttribute('aria-expanded')!=='true';button.setAttribute('aria-expanded',String(opening));button.querySelector('small').textContent=opening?'收起费用明细 −':'点击展开费用明细 ＋';panel.hidden=!opening;if(opening)panel.querySelectorAll('.full-card').forEach((card,j)=>turn(card,j*170));};});
+}
+
+function prepareMobileContent(mobile,key){
+ if(!mobile)return;
+ if(key==='home/welcome'&&!matchMedia('(prefers-reduced-motion:reduce)').matches){
+  const hero=content.querySelector('.dark-hero');hero.classList.add('home-opening');
+  const intro=document.createElement('div');intro.className='mobile-belief-opening';intro.setAttribute('aria-label','陪伴、看见、关注、鼓励');
+  intro.innerHTML='<div class="belief-sequence" aria-hidden="true">'+['陪伴','看见','关注','鼓励'].map((word,i)=>`<span style="--word:${i}">${word}</span>`).join('')+'</div>';
+  hero.prepend(intro);
+ }
+ if(key==='education/abilities'){
+  const section=content.querySelector('.core-abilities'),promise=section.querySelector('.abilities-promise');
+  promise.innerHTML='<p>我们要培养的，不是只会考试的学生<br>而是<strong><span class="promise-emphasis emphasis-learn">能够学习</span>、<span class="promise-emphasis emphasis-express">表达</span>、<span class="promise-emphasis emphasis-team">协作</span>、<span class="promise-emphasis emphasis-think">思考</span></strong><br>持续成长的<strong class="promise-emphasis emphasis-leader">未来领袖！</strong></p>';
+  section.prepend(promise);
+ }
+}
+function initMobileOpening(mobile){
+ if(!mobile)return;
+ const hero=content.querySelector('.home-opening');if(!hero)return;
+ const timer=setTimeout(()=>{hero.classList.remove('home-opening');hero.querySelector('.mobile-belief-opening')?.remove();},5400);
+ sgCleanup.push(()=>clearTimeout(timer));
 }
 </script></body></html>
