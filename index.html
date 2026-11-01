@@ -431,6 +431,18 @@ header nav a{white-space:nowrap}
 .parent-voices .voice-evidence{width:min(100%,300px)}
 }
 @media(min-width:761px) and (max-height:850px){.dark-hero.has-belief-opening{padding-top:86px!important}.mobile-belief-opening{top:0}.dark-hero h1{font-size:56px!important}.mobile-pathway-promise{font-size:20px;margin-bottom:12px}}
+
+/* Desktop promise sits beside the hero; mobile keeps its existing position. */
+@media(min-width:761px){
+.dark-pathways .mobile-pathway-promise{display:none!important}
+.dark-hero .dark-note{display:block!important;position:absolute!important;left:auto!important;right:0!important;top:auto!important;bottom:112px!important;max-width:240px;text-align:left!important;font-size:14px!important;font-weight:400;line-height:2.1!important;letter-spacing:.3px;transform:none!important;padding:0 0 0 16px!important;margin:0!important;border-left:2px solid #f69c6d66;white-space:normal}
+.dark-note .spark{display:none!important}
+.dark-note .hero-note-line{font-size:inherit!important}
+.dark-pathways{padding-top:18px!important}
+}
+@media(min-width:761px) and (max-width:1100px){
+.dark-hero .dark-note{position:relative!important;right:auto!important;bottom:auto!important;align-self:flex-end;margin-top:20px!important;font-size:12px!important}
+}
 </style><meta property="og:type" content="website">
 <meta property="og:title" content="看见学院｜让世界看见每一个你">
 <meta property="og:description" content="中新中马国际融合班，初中毕业，直达世界百强名校。">
