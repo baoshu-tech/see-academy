@@ -370,6 +370,67 @@ body.mobile-intro-playing[data-intro-stage="message"] .dark-hero .dark-intro{vis
 .budget-overview .budget-footnote{display:block!important}
 .budget-total h3{font-size:18px;line-height:1.7}
 @media(max-width:760px){.budget-heading{padding:16px 11px;min-height:0}.budget-total h3{font-size:13px!important;line-height:1.7!important}.budget-total .budget-amount strong{font-size:36px!important}}
+
+/* Shared desktop content and staged opening, with large-screen spacing. */
+@media(min-width:761px){
+
+.dark-hero.has-belief-opening{padding-top:140px!important}
+.mobile-belief-opening{top:40px;height:80px}
+.mobile-belief-opening .belief-sequence>span{animation-name:belief-word-pass;animation-duration:1.35s;animation-timing-function:ease;animation-delay:calc(var(--word)*1.35s)}
+.mobile-belief-settled{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:18px;color:#f69c6d;font-size:27px;font-weight:700;line-height:1.4;opacity:0;animation:belief-settle .8s 5.35s ease forwards}
+.mobile-belief-settled>span{position:relative;white-space:nowrap}.mobile-belief-settled>span:not(:last-child):after{content:'·';position:absolute;right:-12px;color:#8b5338;font-weight:300}
+.home-opening+.dark-pathways{visibility:hidden}
+
+
+body.mobile-intro-playing header,body.mobile-intro-playing #subnav-wrap,body.mobile-intro-playing #page-turn,body.mobile-intro-playing footer,body.mobile-intro-playing #content{visibility:hidden!important}
+body.mobile-intro-playing .mobile-belief-opening{visibility:visible!important}
+body.mobile-intro-playing .mesh-background i{animation:intro-glow-breathe 1.35s ease-in-out 4!important}
+body.mobile-intro-playing .dark-hero:before,body.mobile-intro-playing .dark-hero:after{opacity:0!important}
+
+
+body.mobile-intro-playing[data-intro-stage] header .brand,
+body.mobile-intro-playing[data-intro-stage] .dark-hero .dark-edition,
+body.mobile-intro-playing[data-intro-stage] .dark-hero #hero-title,
+body.mobile-intro-playing[data-intro-stage="message"] .dark-hero .dark-intro{visibility:visible!important}
+
+
+.core-abilities>.abilities-promise:first-child p{font-size:clamp(20px,6vw,26px)!important;font-style:normal!important;line-height:1.9!important;letter-spacing:-.5px}
+.promise-line{display:block;animation:promise-line-reveal .65s ease both;animation-delay:calc(.1s + var(--line)*.8s)}
+.promise-line s{text-decoration-thickness:2px;text-decoration-color:#f3e7df;text-decoration-skip-ink:none}
+.promise-ink{position:relative;display:inline-block;color:#ff985d;font-weight:850;white-space:nowrap}
+.promise-ink:after{content:'';position:absolute;left:-2%;bottom:0;width:104%;height:9px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 12' preserveAspectRatio='none'%3E%3Cpath d='M3 8 Q38 2 72 6 T147 4 M9 10 Q73 6 138 8' fill='none' stroke='%23ff985d' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E") center/100% 100% no-repeat;transform-origin:left center;animation:promise-ink-draw .55s ease-out both;animation-delay:calc(.72s + var(--line)*.8s)}
+
+
+header nav{display:flex;justify-content:center;gap:clamp(8px,2vw,30px);flex-wrap:wrap}
+header nav a{white-space:nowrap}
+.dark-hero.has-belief-opening{min-height:0!important;padding:105px 0 24px!important;justify-content:flex-start}
+.mobile-belief-opening{position:absolute;inset:14px 0 auto;height:80px;z-index:3;pointer-events:none;transition:translate 1s ease-in-out}
+.mobile-belief-opening .belief-sequence>span{font-size:64px}
+.mobile-belief-settled{font-size:34px;gap:28px}
+.mobile-belief-settled>span:not(:last-child):after{right:-18px}
+.home-lifted .mobile-belief-opening{translate:0 -14px}
+.dark-hero h1{font-size:clamp(54px,5vw,72px)!important;margin-bottom:18px!important}
+.dark-hero .dark-intro{font-size:16px!important;font-weight:400!important;line-height:1.8!important}
+.dark-hero .dark-actions{margin-top:20px}
+.dark-hero .dark-note,.dark-hero .dark-index{display:none!important}
+.dark-pathways{padding-top:8px!important;margin-top:0!important}
+.mobile-pathway-promise{display:block!important;text-align:center;font-size:22px;line-height:1.7;font-weight:400;margin:0 0 18px}
+.mobile-pathway-promise span,.mobile-pathway-promise strong{display:block;font-weight:500}
+.dark-programme{padding:20px 24px}
+.core-abilities>.abilities-promise:first-child{margin:0 0 28px!important;padding:16px 0!important;border:0!important;text-align:center}
+.core-abilities>.abilities-promise:first-child p{font-size:32px!important;line-height:1.85!important;font-style:normal!important}
+.abilities-intro-playing>:not(.abilities-promise){visibility:hidden!important}
+.promise-skills{white-space:nowrap}
+.promise-strike{position:relative;display:inline-block}
+.promise-strike:after{content:'';position:absolute;left:0;right:0;top:52%;height:2px;background:#f3e7df;transform-origin:left center;animation:promise-strike-draw .45s ease-out 1.58s both}
+.ability-name h2,.ability-row-wide h2{font-size:28px!important}
+.ability-number{font-size:60px!important}
+.ability-course h3{font-size:21px!important}
+.ability-purpose p,.ability-course p{font-size:15px!important;line-height:1.85!important}
+.parent-voices{max-width:1000px;margin-inline:auto}
+.parent-voices .voice-evidence{width:min(100%,300px)}
+}
+@media(min-width:761px) and (max-height:850px){.dark-hero.has-belief-opening{padding-top:86px!important}.mobile-belief-opening{top:0}.dark-hero h1{font-size:56px!important}.mobile-pathway-promise{font-size:20px;margin-bottom:12px}}
 </style><meta property="og:type" content="website">
 <meta property="og:title" content="看见学院｜让世界看见每一个你">
 <meta property="og:description" content="中新中马国际融合班，初中毕业，直达世界百强名校。">
@@ -618,19 +679,19 @@ function route(){
  if(!PAGES[key])key='home/welcome';
  const mobile=matchMedia('(max-width:760px)').matches;
  if(!PAGES['parents/voices'])PAGES['parents/voices']=PAGES['education/belief'].slice(PAGES['education/belief'].indexOf('<section class="parent-voices"'));
- if(mobile&&key==='education/belief')key='education/abilities';
+ if(key==='education/belief')key='education/abilities';
  const groups={...GROUPS,parents:[['voices','过往反馈']]};
- if(mobile)groups.education=[['abilities','四项核心能力']];
- const navItems=mobile?[['home','学院首页'],['singapore','中新班'],['malaysia','中马班'],['education','培养体系'],['parents','过往反馈'],['campus','校园成长'],['admissions','招生指南']]:NAV;
+ groups.education=[['abilities','四项核心能力']];
+ const navItems=[['home','学院首页'],['singapore','中新班'],['malaysia','中马班'],['education','培养体系'],['parents','过往反馈'],['campus','校园成长'],['admissions','招生指南']];
  document.querySelector('header nav').innerHTML=navItems.map(([g,label])=>`<a href="#${g}/${groups[g][0][0]}" data-group="${g}">${label}</a>`).join('');
  const [group,panel]=key.split('/');
  content.innerHTML=PAGES[key];prepareMobileContent(mobile,key);hydrate();
  document.querySelectorAll('header [data-group]').forEach(a=>{const active=a.dataset.group===group;a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
- document.getElementById('subnav-wrap').hidden=group==='home'||(mobile&&['education','parents'].includes(group));
+ document.getElementById('subnav-wrap').hidden=group==='home'||['education','parents'].includes(group);
  subnav.innerHTML=groups[group].map(([id,name])=>`<a href="#${group}/${id}" class="${id===panel?'active':''}" ${id===panel?'aria-current="page"':''}>${name}</a>`).join('');
  const seq=groups[group],index=seq.findIndex(([id])=>id===panel);
  const prev=index?`${group}/${seq[index-1][0]}`:'home/welcome';
- const next=index<seq.length-1?`${group}/${seq[index+1][0]}`:group==='home'?'singapore/overview':group==='singapore'?'malaysia/overview':group==='malaysia'?'education/belief':group==='education'?'campus/care':group==='campus'?'admissions/fees':group==='admissions'?'home/welcome':'home/welcome';
+ const next=index<seq.length-1?`${group}/${seq[index+1][0]}`:group==='home'?'singapore/overview':group==='singapore'?'malaysia/overview':group==='malaysia'?'education/abilities':group==='education'?'campus/care':group==='campus'?'admissions/fees':group==='admissions'?'home/welcome':'home/welcome';
  const titleOf=k=>groups[k.split('/')[0]].find(a=>a[0]===k.split('/')[1])[1];
  document.getElementById('page-turn').innerHTML=`<a href="#${prev}">← ${titleOf(prev)}</a><span>SEE ACADEMY / ${String(index+1).padStart(2,'0')}</span><a href="#${next}">${titleOf(next)} →</a>`;
  document.title='看见学院｜'+seq[index][1];
@@ -682,7 +743,6 @@ function initBudgetPanels(){
 
 function prepareMobileContent(mobile,key){
  document.body.classList.remove('mobile-intro-playing');
- if(!mobile)return;
  if(key==='home/welcome'&&!matchMedia('(prefers-reduced-motion:reduce)').matches){
   const hero=content.querySelector('.dark-hero');hero.classList.add('home-opening','has-belief-opening');document.body.classList.add('mobile-intro-playing');
   const intro=document.createElement('div');intro.className='mobile-belief-opening';intro.setAttribute('aria-label','陪伴、关注、鼓励、看见');
@@ -697,7 +757,6 @@ function prepareMobileContent(mobile,key){
  }
 }
 function initMobileOpening(mobile){
- if(!mobile)return;
  const hero=content.querySelector('.home-opening');if(!hero)return;
  const animations=[],timers=[];
  const fade=(selector,rise=0)=>document.querySelectorAll(selector).forEach(el=>{
