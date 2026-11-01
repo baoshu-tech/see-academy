@@ -678,8 +678,8 @@ function prepareMobileContent(mobile,key){
  if(!mobile)return;
  if(key==='home/welcome'&&!matchMedia('(prefers-reduced-motion:reduce)').matches){
   const hero=content.querySelector('.dark-hero');hero.classList.add('home-opening','has-belief-opening');document.body.classList.add('mobile-intro-playing');
-  const intro=document.createElement('div');intro.className='mobile-belief-opening';intro.setAttribute('aria-label','陪伴、看见、关注、鼓励');
-  intro.innerHTML='<div class="belief-sequence" aria-hidden="true">'+['陪伴','看见','关注','鼓励'].map((word,i)=>`<span style="--word:${i}">${word}</span>`).join('')+'</div><div class="mobile-belief-settled">'+['陪伴','看见','关注','鼓励'].map(word=>`<span>${word}</span>`).join('')+'</div>';
+  const intro=document.createElement('div');intro.className='mobile-belief-opening';intro.setAttribute('aria-label','陪伴、关注、鼓励、看见');
+  intro.innerHTML='<div class="belief-sequence" aria-hidden="true">'+['陪伴','关注','鼓励','看见'].map((word,i)=>`<span style="--word:${i}">${word}</span>`).join('')+'</div><div class="mobile-belief-settled">'+['陪伴','关注','鼓励','看见'].map(word=>`<span>${word}</span>`).join('')+'</div>';
   hero.prepend(intro);
  }
  if(key==='education/abilities'){
