@@ -273,6 +273,15 @@ header nav a[data-group="education"]:before{content:'▱'}header nav a[data-grou
 .mobile-belief-settled>span{position:relative;white-space:nowrap}.mobile-belief-settled>span:not(:last-child):after{content:'·';position:absolute;right:-12px;color:#8b5338;font-weight:300}
 .home-opening+.dark-pathways{visibility:hidden}
 }
+
+/* Keep the introduction free of all other interface and copy. */
+@media(max-width:760px){
+body.mobile-intro-playing header,body.mobile-intro-playing #subnav-wrap,body.mobile-intro-playing #page-turn,body.mobile-intro-playing footer,body.mobile-intro-playing #content{visibility:hidden!important}
+body.mobile-intro-playing .mobile-belief-opening{visibility:visible!important}
+body.mobile-intro-playing .mesh-background i{animation:intro-glow-breathe 1.35s ease-in-out 4!important}
+body.mobile-intro-playing .dark-hero:before,body.mobile-intro-playing .dark-hero:after{opacity:0!important}
+}
+@keyframes intro-glow-breathe{0%{opacity:.12;transform:scale(.96)}35%,65%{opacity:.65;transform:scale(1.025)}100%{opacity:.15;transform:scale(.97)}}
 </style><meta property="og:type" content="website">
 <meta property="og:title" content="看见学院｜让世界看见每一个你">
 <meta property="og:description" content="中新中马国际融合班，初中毕业，直达世界百强名校。">
@@ -578,9 +587,10 @@ function initBudgetPanels(){
 }
 
 function prepareMobileContent(mobile,key){
+ document.body.classList.remove('mobile-intro-playing');
  if(!mobile)return;
  if(key==='home/welcome'&&!matchMedia('(prefers-reduced-motion:reduce)').matches){
-  const hero=content.querySelector('.dark-hero');hero.classList.add('home-opening','has-belief-opening');
+  const hero=content.querySelector('.dark-hero');hero.classList.add('home-opening','has-belief-opening');document.body.classList.add('mobile-intro-playing');
   const intro=document.createElement('div');intro.className='mobile-belief-opening';intro.setAttribute('aria-label','陪伴、看见、关注、鼓励');
   intro.innerHTML='<div class="belief-sequence" aria-hidden="true">'+['陪伴','看见','关注','鼓励'].map((word,i)=>`<span style="--word:${i}">${word}</span>`).join('')+'</div><div class="mobile-belief-settled">'+['陪伴','看见','关注','鼓励'].map(word=>`<span>${word}</span>`).join('')+'</div>';
   hero.prepend(intro);
@@ -594,7 +604,7 @@ function prepareMobileContent(mobile,key){
 function initMobileOpening(mobile){
  if(!mobile)return;
  const hero=content.querySelector('.home-opening');if(!hero)return;
- const timer=setTimeout(()=>{hero.classList.remove('home-opening');hero.classList.add('home-opened');},6350);
- sgCleanup.push(()=>clearTimeout(timer));
+ const timer=setTimeout(()=>{hero.classList.remove('home-opening');hero.classList.add('home-opened');document.body.classList.remove('mobile-intro-playing');},6350);
+ sgCleanup.push(()=>{clearTimeout(timer);document.body.classList.remove('mobile-intro-playing');});
 }
 </script></body></html>
