@@ -316,6 +316,14 @@ body.mobile-intro-playing[data-intro-stage="message"] .dark-hero .dark-intro{vis
 @keyframes promise-line-reveal{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
 @keyframes promise-ink-draw{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
 @media(prefers-reduced-motion:reduce){.promise-line,.promise-ink:after{animation:none!important}}
+
+@media(max-width:760px){
+.promise-skills{white-space:nowrap}
+.promise-strike{position:relative;display:inline-block}
+.promise-strike:after{content:'';position:absolute;left:0;right:0;top:52%;height:2px;background:#f3e7df;transform-origin:left center;animation:promise-strike-draw .45s ease-out 1.58s both}
+}
+@keyframes promise-strike-draw{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@media(prefers-reduced-motion:reduce){.promise-strike:after{animation:none!important}}
 </style><meta property="og:type" content="website">
 <meta property="og:title" content="看见学院｜让世界看见每一个你">
 <meta property="og:description" content="中新中马国际融合班，初中毕业，直达世界百强名校。">
@@ -636,7 +644,7 @@ function prepareMobileContent(mobile,key){
  }
  if(key==='education/abilities'){
   const section=content.querySelector('.core-abilities'),promise=section.querySelector('.abilities-promise');
-  promise.innerHTML='<p><span class="promise-line" style="--line:0">我们要培养的：</span><span class="promise-line" style="--line:1"><s>不是只会考试的学生</s></span><span class="promise-line" style="--line:2">而是<span class="promise-ink">能够学习</span>、<span class="promise-ink">表达</span>，</span><span class="promise-line" style="--line:3"><span class="promise-ink">协作</span>、<span class="promise-ink">思考</span>，</span><span class="promise-line" style="--line:4">持续成长的<span class="promise-ink">未来领袖！</span></span></p>';
+  promise.innerHTML='<p><span class="promise-line" style="--line:0">我们要培养的：</span><span class="promise-line" style="--line:1"><span class="promise-strike">不是只会考试的学生</span></span><span class="promise-line" style="--line:2">而是能够</span><span class="promise-line promise-skills" style="--line:3"><span class="promise-ink">学习</span>、<span class="promise-ink">表达</span>、<span class="promise-ink">协作</span>、<span class="promise-ink">思考</span></span><span class="promise-line" style="--line:4">持续成长的<span class="promise-ink">未来领袖！</span></span></p>';
   section.prepend(promise);
   if(!matchMedia('(prefers-reduced-motion:reduce)').matches)section.classList.add('abilities-intro-playing');
  }
