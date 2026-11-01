@@ -304,6 +304,18 @@ body.mobile-intro-playing[data-intro-stage="message"] .dark-hero .dark-intro{vis
 .ability-course h3,.ability-row-wide .ability-course h3{font-size:18px!important}
 .ability-purpose p,.ability-course p{font-size:13px!important;line-height:1.85!important}
 }
+
+/* A larger upright manifesto, revealed line by line with hand-drawn accents. */
+@media(max-width:760px){
+.core-abilities>.abilities-promise:first-child p{font-size:clamp(20px,6vw,26px)!important;font-style:normal!important;line-height:1.9!important;letter-spacing:-.5px}
+.promise-line{display:block;animation:promise-line-reveal .65s ease both;animation-delay:calc(.1s + var(--line)*.8s)}
+.promise-line s{text-decoration-thickness:2px;text-decoration-color:#f3e7df;text-decoration-skip-ink:none}
+.promise-ink{position:relative;display:inline-block;color:#ff985d;font-weight:850;white-space:nowrap}
+.promise-ink:after{content:'';position:absolute;left:-2%;bottom:0;width:104%;height:9px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 12' preserveAspectRatio='none'%3E%3Cpath d='M3 8 Q38 2 72 6 T147 4 M9 10 Q73 6 138 8' fill='none' stroke='%23ff985d' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E") center/100% 100% no-repeat;transform-origin:left center;animation:promise-ink-draw .55s ease-out both;animation-delay:calc(.72s + var(--line)*.8s)}
+}
+@keyframes promise-line-reveal{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+@keyframes promise-ink-draw{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@media(prefers-reduced-motion:reduce){.promise-line,.promise-ink:after{animation:none!important}}
 </style><meta property="og:type" content="website">
 <meta property="og:title" content="看见学院｜让世界看见每一个你">
 <meta property="og:description" content="中新中马国际融合班，初中毕业，直达世界百强名校。">
@@ -370,7 +382,7 @@ function initPageMotion(reduced,listen){
  const revealAbilities=()=>content.querySelectorAll('.ability-row').forEach((el,i)=>add(el,i%2?'side-right':'side-left',90));
  const abilitiesIntro=content.querySelector('.abilities-intro-playing');
  if(abilitiesIntro){
-  const timer=setTimeout(()=>{abilitiesIntro.classList.remove('abilities-intro-playing');add(abilitiesIntro.querySelector('.abilities-kicker'),'title-fade',0,true);revealAbilities();},3450);
+  const timer=setTimeout(()=>{abilitiesIntro.classList.remove('abilities-intro-playing');add(abilitiesIntro.querySelector('.abilities-kicker'),'title-fade',0,true);revealAbilities();},4750);
   sgCleanup.push(()=>clearTimeout(timer));
  }else revealAbilities();
  // Animate an entire table together, so its rows remain aligned during the turn.
@@ -624,7 +636,7 @@ function prepareMobileContent(mobile,key){
  }
  if(key==='education/abilities'){
   const section=content.querySelector('.core-abilities'),promise=section.querySelector('.abilities-promise');
-  promise.innerHTML='<p>我们要培养的，<br>不是只会考试的学生<br>而是<strong><span class="promise-emphasis emphasis-learn">能够学习</span>、<span class="promise-emphasis emphasis-express">表达</span>、<span class="promise-emphasis emphasis-team">协作</span>、<span class="promise-emphasis emphasis-think">思考</span></strong><br>持续成长的<strong class="promise-emphasis emphasis-leader">未来领袖！</strong></p>';
+  promise.innerHTML='<p><span class="promise-line" style="--line:0">我们要培养的：</span><span class="promise-line" style="--line:1"><s>不是只会考试的学生</s></span><span class="promise-line" style="--line:2">而是<span class="promise-ink">能够学习</span>、<span class="promise-ink">表达</span>，</span><span class="promise-line" style="--line:3"><span class="promise-ink">协作</span>、<span class="promise-ink">思考</span>，</span><span class="promise-line" style="--line:4">持续成长的<span class="promise-ink">未来领袖！</span></span></p>';
   section.prepend(promise);
   if(!matchMedia('(prefers-reduced-motion:reduce)').matches)section.classList.add('abilities-intro-playing');
  }
