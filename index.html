@@ -282,6 +282,14 @@ body.mobile-intro-playing .mesh-background i{animation:intro-glow-breathe 1.35s 
 body.mobile-intro-playing .dark-hero:before,body.mobile-intro-playing .dark-hero:after{opacity:0!important}
 }
 @keyframes intro-glow-breathe{0%{opacity:.12;transform:scale(.96)}35%,65%{opacity:.65;transform:scale(1.025)}100%{opacity:.15;transform:scale(.97)}}
+
+/* Reveal identity, then the message, then the remaining interface. */
+@media(max-width:760px){
+body.mobile-intro-playing[data-intro-stage] header .brand,
+body.mobile-intro-playing[data-intro-stage] .dark-hero .dark-edition,
+body.mobile-intro-playing[data-intro-stage] .dark-hero #hero-title,
+body.mobile-intro-playing[data-intro-stage="message"] .dark-hero .dark-intro{visibility:visible!important}
+}
 </style><meta property="og:type" content="website">
 <meta property="og:title" content="看见学院｜让世界看见每一个你">
 <meta property="og:description" content="中新中马国际融合班，初中毕业，直达世界百强名校。">
@@ -333,8 +341,8 @@ function initPageMotion(reduced,listen){
   if(immediate)reveal(el);else observer.observe(el);
  };
  const home=content.querySelector('.dark-hero');
- if(home){
-  const openingDelay=home.classList.contains('home-opening')?6350:0;
+ if(home&&!home.classList.contains('home-opening')){
+  const openingDelay=0;
   home.querySelectorAll('.hero-word').forEach((el,i)=>add(el,'title-rise',openingDelay+i*210,true));
   home.querySelectorAll('.dark-intro>span').forEach((el,i)=>add(el,'title-rise',openingDelay+1350+i*240,true));
   home.querySelectorAll('.hero-note-line').forEach((el,i)=>add(el,'title-fade',openingDelay+1850+i*220,true));
@@ -604,7 +612,24 @@ function prepareMobileContent(mobile,key){
 function initMobileOpening(mobile){
  if(!mobile)return;
  const hero=content.querySelector('.home-opening');if(!hero)return;
- const timer=setTimeout(()=>{hero.classList.remove('home-opening');hero.classList.add('home-opened');document.body.classList.remove('mobile-intro-playing');},6350);
- sgCleanup.push(()=>{clearTimeout(timer);document.body.classList.remove('mobile-intro-playing');});
+ const animations=[],timers=[];
+ const fade=selector=>document.querySelectorAll(selector).forEach(el=>{
+  animations.push(el.animate([{opacity:0},{opacity:1}],{duration:1000,easing:'ease-in-out',fill:'backwards'}));
+ });
+ // Allow each reveal to finish before the following group appears.
+ timers.push(setTimeout(()=>{
+  document.body.dataset.introStage='identity';
+  fade('header .brand,.dark-hero .dark-edition,.dark-hero #hero-title');
+ },6350));
+ timers.push(setTimeout(()=>{
+  document.body.dataset.introStage='message';
+  fade('.dark-hero .dark-intro');
+ },7650));
+ timers.push(setTimeout(()=>{
+  hero.classList.remove('home-opening');hero.classList.add('home-opened');
+  document.body.classList.remove('mobile-intro-playing');delete document.body.dataset.introStage;
+  fade('header nav,header .brand-belief,header .header-explore,.dark-hero .dark-actions,.dark-hero .dark-note,.dark-hero .dark-index,#content>section:not(.dark-hero),#page-turn,footer');
+ },8950));
+ sgCleanup.push(()=>{timers.forEach(clearTimeout);animations.forEach(a=>a.cancel());document.body.classList.remove('mobile-intro-playing');delete document.body.dataset.introStage;});
 }
 </script></body></html>
